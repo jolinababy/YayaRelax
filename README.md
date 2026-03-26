@@ -1,4 +1,4 @@
-# 小鸭梨 · Yaya Pear
+# 小鸭梨 · YayaRelax
 一款用音乐舒缓情绪、减轻压力的轻量心理治愈应用。
 
 ## 🌟 介绍
@@ -17,11 +17,13 @@
 - 日常冥想、情绪管理
 
 
-# 小鸭梨 · Yaya Pear
+---
+
+# 小鸭梨 · YayaRelax
 A gentle healing app that relieves stress with music.
 
 ## 🌟 Introduction
-Yaya Pear uses soft music to help users relax, relieve anxiety and pressure in daily life, and find inner peace.
+YayaRelax uses soft music to help users relax, relieve anxiety and pressure in daily life, and find inner peace.
 
 ## ✨ Features
 - 🌿 **Mindfulness Meditation** – Guided meditation with calming music
