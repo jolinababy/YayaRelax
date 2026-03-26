@@ -1,0 +1,2784 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="小鸭梨 - 让心灵小憩片刻，年轻人的减压疗愈H5平台">
+  <title>小鸭梨 - 让心灵小憩片刻</title>
+  
+  <style>
+    /* CSS Variables */
+    :root {
+      --primary: #84B59F;
+      --secondary: #69A297;
+      --accent: #50808E;
+      --light: #F5F5F5;
+      --white: #FFFFFF;
+      --success: #7FC29B;
+      --warning: #F4A261;
+      --danger: #E57373;
+      
+      /* 呼吸圆圈颜色 */
+      --breath-inhale-start: #7FC29B;  /* 草绿色 */
+      --breath-inhale-end: #6BCB77;
+      --breath-hold-start: #FFD93D;    /* 小黄鸭黄色 */
+      --breath-hold-end: #FFB84D;
+      --breath-exhale-start: #84B59F; /* 浅绿色 */
+      --breath-exhale-end: #69A297;
+      
+      --emotion-happy: #FFD93D;
+      --emotion-calm: #6BCB77;
+      --emotion-anxious: #A8D8EA;
+      --emotion-sad: #90A4AE;
+      --emotion-angry: #E57373;
+      
+      --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+      
+      --radius-md: 8px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
+      
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: var(--font-main);
+      background: var(--light);
+      color: var(--accent);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Container */
+    .container {
+      max-width: 428px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: var(--light);
+      position: relative;
+      padding-bottom: 80px;
+    }
+    
+    /* Pages */
+    .page {
+      display: none;
+      padding: var(--space-lg);
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .page.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-xl);
+    }
+    
+    .header-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    
+    .back-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      padding: var(--space-xs);
+    }
+    
+    /* Duck Avatar */
+    .duck-avatar {
+      width: 120px;
+      height: 120px;
+      margin: var(--space-xl) auto;
+      background: linear-gradient(135deg, #FFD93D, #FFB84D);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-lg);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 64px;
+    }
+    
+    .duck-avatar:hover {
+      transform: scale(1.05);
+    }
+    
+    .duck-avatar.bounce {
+      animation: bounce 0.5s ease;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    /* Cards */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-md);
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      border-radius: var(--radius-lg);
+      font-size: var(--space-md);
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+    
+    .btn-primary {
+      background: var(--primary);
+      color: var(--white);
+    }
+    
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+    
+    .btn-secondary {
+      background: var(--secondary);
+      color: var(--white);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .btn-danger {
+      background: var(--danger);
+      color: var(--white);
+    }
+    
+    /* Emotion Selector */
+    .emotion-selector {
+      display: flex;
+      justify-content: space-around;
+      gap: var(--space-sm);
+      margin: var(--space-xl) 0;
+    }
+    
+    .emotion-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-xs);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    
+    .emotion-item:hover {
+      transform: scale(1.1);
+    }
+    
+    .emotion-item.selected {
+      transform: scale(1.15);
+    }
+    
+    .emotion-emoji {
+      font-size: 40px;
+    }
+    
+    .emotion-label {
+      font-size: 12px;
+      color: var(--accent);
+    }
+    
+    /* Textarea */
+    .textarea {
+      width: 100%;
+      padding: var(--space-md);
+      border: 2px solid var(--light);
+      border-radius: var(--radius-lg);
+      font-size: var(--space-md);
+      font-family: var(--font-main);
+      resize: none;
+      transition: border-color 0.3s ease;
+    }
+    
+    .textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    
+    .char-count {
+      font-size: 12px;
+      color: var(--accent);
+      text-align: right;
+      margin-top: var(--space-xs);
+    }
+    
+    /* Input */
+    .input {
+      width: 100%;
+      padding: 12px var(--space-md);
+      border: 2px solid var(--light);
+      border-radius: var(--radius-lg);
+      font-size: var(--space-md);
+      font-family: var(--font-main);
+      transition: border-color 0.3s ease;
+    }
+    
+    .input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    
+    /* ========== 优化后的正念冥想圆圈动效 - V3 ========== */
+    
+    .breath-circle {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      margin: 40px auto 40px auto; /* 增加上下间距，避免遮挡 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-lg);
+      transition: transform 5s ease-in-out, background-color 5s ease-in-out;
+      transform: scale(1);
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* 吸气 - 草绿色 */
+    .breath-circle.inhale {
+      transform: scale(1.5);
+      background: linear-gradient(135deg, var(--breath-inhale-start), var(--breath-inhale-end));
+    }
+    
+    /* 保持 - 小黄鸭黄色 */
+    .breath-circle.hold {
+      transform: scale(1.5);
+      background: linear-gradient(135deg, var(--breath-hold-start), var(--breath-hold-end));
+      animation: breathe-pulse 1s ease-in-out infinite;
+    }
+    
+    /* 呼气 - 浅绿色 */
+    .breath-circle.exhale {
+      transform: scale(1);
+      background: linear-gradient(135deg, var(--breath-exhale-start), var(--breath-exhale-end));
+    }
+    
+    .breath-circle.paused {
+      transform: scale(1);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      animation: none;
+    }
+    
+    @keyframes breathe-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+    
+    .breath-text {
+      color: var(--white);
+      font-size: 18px;
+      font-weight: 600;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      position: relative;
+      z-index: 2;
+    }
+    
+    /* Audio Controls */
+    .audio-controls {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      margin: var(--space-xl) 0;
+    }
+    
+    .duration-btn {
+      padding: 8px var(--space-md);
+      border: 2px solid var(--primary);
+      background: transparent;
+      color: var(--primary);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .duration-btn.active {
+      background: var(--primary);
+      color: var(--white);
+    }
+    
+    /* Music Control Panel */
+    .music-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(132, 181, 159, 0.9);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .music-toggle:hover {
+      transform: scale(1.1);
+      background: rgba(132, 181, 159, 1);
+    }
+    
+    .music-toggle svg {
+      width: 28px;
+      height: 28px;
+      fill: white;
+    }
+    
+    .music-toggle.playing {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 4px 12px rgba(132, 181, 159, 0.3); }
+      50% { box-shadow: 0 4px 20px rgba(132, 181, 159, 0.6); }
+    }
+    
+    .music-panel {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      width: 280px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      z-index: 999;
+      backdrop-filter: blur(10px);
+      animation: slideIn 0.3s ease;
+      display: none;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    
+    .music-panel.visible {
+      display: block;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .music-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(132, 181, 159, 0.2);
+    }
+    
+    .music-panel-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #999;
+      transition: color 0.2s;
+    }
+    
+    .close-btn:hover {
+      color: #666;
+    }
+    
+    .music-switch {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 48px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 16px;
+      gap: 8px;
+    }
+    
+    .music-switch:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(132, 181, 159, 0.4);
+    }
+    
+    .music-switch.paused {
+      background: linear-gradient(135deg, #999 0%, #777 100%);
+    }
+    
+    .music-selector {
+      width: 100%;
+      height: 44px;
+      padding: 0 12px;
+      border: 2px solid rgba(132, 181, 159, 0.3);
+      border-radius: 10px;
+      background: white;
+      font-size: 14px;
+      color: #333;
+      cursor: pointer;
+      transition: border-color 0.3s;
+      margin-bottom: 16px;
+    }
+    
+    .music-selector:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    
+    .volume-control {
+      margin-bottom: 16px;
+    }
+    
+    .volume-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+    
+    .volume-slider {
+      width: 100%;
+      height: 6px;
+      background: rgba(132, 181, 159, 0.2);
+      border-radius: 3px;
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+    
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      background: var(--primary);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(132, 181, 159, 0.4);
+      transition: all 0.2s;
+    }
+    
+    .volume-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+    }
+    
+    .duration-options {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    
+    .music-duration-btn {
+      flex: 1;
+      min-width: calc(50% - 4px);
+      height: 36px;
+      border: 2px solid rgba(132, 181, 159, 0.3);
+      border-radius: 8px;
+      background: white;
+      color: #666;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .music-duration-btn:hover {
+      border-color: rgba(132, 181, 159, 0.6);
+      background: rgba(132, 181, 159, 0.05);
+    }
+    
+    .music-duration-btn.active {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border-color: var(--primary);
+    }
+    
+    .now-playing {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      background: rgba(132, 181, 159, 0.1);
+      border-radius: 8px;
+      font-size: 13px;
+      color: #666;
+    }
+    
+    .wave-animation {
+      display: flex;
+      gap: 2px;
+      align-items: center;
+    }
+    
+    .wave-bar {
+      width: 3px;
+      height: 8px;
+      background: var(--primary);
+      border-radius: 2px;
+      animation: wave 0.8s ease-in-out infinite;
+    }
+    
+    .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+    .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+    .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+    
+    @keyframes wave {
+      0%, 100% { height: 8px; }
+      50% { height: 16px; }
+    }
+    
+    /* 答案卡片 - 简洁H5设计 */
+    .answer-card {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      min-height: 200px;
+      max-height: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: var(--space-xl) 0;
+      animation: fadeInUp 0.5s ease;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .answer-icon {
+      font-size: 48px;
+      margin-bottom: var(--space-md);
+    }
+    
+    .answer-text {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.6;
+      margin-bottom: var(--space-lg);
+      word-wrap: break-word;
+    }
+    
+    .answer-type {
+      display: inline-block;
+      padding: 8px 20px;
+      background: rgba(255, 255, 255, 0.2);
+      color: var(--white);
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      backdrop-filter: blur(10px);
+    }
+    
+    /* Countdown */
+    .countdown {
+      font-size: 80px;
+      font-weight: 700;
+      color: var(--primary);
+      text-align: center;
+      margin: var(--space-2xl) 0;
+      animation: pulse 1s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    /* History List */
+    .history-list {
+      margin-top: var(--space-lg);
+    }
+    
+    .history-item {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md);
+      margin-bottom: var(--space-sm);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .history-item:hover {
+      transform: translateX(4px);
+    }
+    
+    .history-emoji {
+      font-size: 32px;
+    }
+    
+    .history-content {
+      flex: 1;
+    }
+    
+    .history-date {
+      font-size: 12px;
+      color: var(--accent);
+      opacity: 0.6;
+    }
+    
+    .history-text {
+      font-size: 14px;
+      margin-top: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    /* 日记删除按钮 */
+    .delete-btn {
+      background: var(--danger);
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.2s;
+    }
+    
+    .delete-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    /* 图片预览 */
+    .image-preview-container {
+      margin-top: var(--space-md);
+    }
+    
+    .image-preview-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-top: var(--space-sm);
+    }
+    
+    .image-preview-item {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 2px solid var(--light);
+    }
+    
+    .image-preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .image-preview-remove {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 20px;
+      height: 20px;
+      background: var(--danger);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* 日记中的图片显示 - 可点击放大 */
+    .diary-images {
+      display: flex;
+      gap: var(--space-xs);
+      margin-top: var(--space-xs);
+      flex-wrap: wrap;
+    }
+    
+    .diary-image {
+      width: 60px;
+      height: 60px;
+      border-radius: var(--radius-md);
+      object-fit: cover;
+      border: 1px solid var(--light);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .diary-image:hover {
+      transform: scale(1.1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    
+    /* ========== 图片放大预览模态框 - V4修复 ========== */
+    .image-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 3000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .image-modal.visible {
+      display: flex;
+      opacity: 1;
+    }
+    
+    .image-modal-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .image-modal-img {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+    
+    .image-modal-close {
+      position: absolute;
+      top: -50px;
+      right: 0;
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--accent);
+      border: none;
+      border-radius: 50%;
+      font-size: 28px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      z-index: 10;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    
+    .image-modal-close:hover {
+      transform: scale(1.1);
+      background: var(--danger);
+      color: white;
+    }
+    
+    .image-modal-nav {
+      display: flex;
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+    
+    .image-modal-nav-btn {
+      padding: 12px 24px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-lg);
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .image-modal-nav-btn:hover {
+      transform: scale(1.05);
+      background: var(--secondary);
+    }
+    
+    .image-modal-nav-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .image-modal-counter {
+      color: white;
+      font-size: 14px;
+      margin-top: var(--space-sm);
+    }
+    
+    /* ========== V5新增：H5确认删除模态框 ========== */
+    .confirm-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 2500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      padding: var(--space-lg);
+    }
+    
+    .confirm-modal.visible {
+      display: flex;
+      opacity: 1;
+    }
+    
+    .confirm-modal-content {
+      background: white;
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
+      width: 100%;
+      max-width: 320px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      animation: slideInUp 0.3s ease;
+    }
+    
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .confirm-modal-icon {
+      font-size: 48px;
+      text-align: center;
+      margin-bottom: var(--space-md);
+    }
+    
+    .confirm-modal-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--accent);
+      text-align: center;
+      margin-bottom: var(--space-sm);
+    }
+    
+    .confirm-modal-message {
+      font-size: 14px;
+      color: #666;
+      text-align: center;
+      line-height: 1.6;
+      margin-bottom: var(--space-xl);
+    }
+    
+    .confirm-modal-actions {
+      display: flex;
+      gap: var(--space-md);
+    }
+    
+    .confirm-modal-btn {
+      flex: 1;
+      height: 44px;
+      border: none;
+      border-radius: var(--radius-lg);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .confirm-modal-btn.cancel {
+      background: var(--light);
+      color: var(--accent);
+    }
+    
+    .confirm-modal-btn.cancel:hover {
+      background: #e8e8e8;
+    }
+    
+    .confirm-modal-btn.confirm {
+      background: var(--danger);
+      color: white;
+    }
+    
+    .confirm-modal-btn.confirm:hover {
+      background: #d66060;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(229, 115, 115, 0.4);
+    }
+    
+    /* 拍照和上传按钮 */
+    .photo-buttons {
+      display: flex;
+      gap: var(--space-md);
+      margin-top: var(--space-md);
+    }
+    
+    .photo-btn {
+      flex: 1;
+      height: 44px;
+      border: 2px solid var(--primary);
+      background: white;
+      color: var(--primary);
+      border-radius: var(--radius-lg);
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    
+    .photo-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+    
+    /* 清空日记按钮 */
+    .clear-all-btn {
+      width: 100%;
+      height: 44px;
+      background: var(--danger);
+      color: white;
+      border: none;
+      border-radius: var(--radius-lg);
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: var(--space-md);
+      transition: all 0.3s;
+    }
+    
+    .clear-all-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    /* 摄像头预览 */
+    .camera-preview {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 2000;
+      display: none;
+    }
+    
+    .camera-preview.visible {
+      display: block;
+    }
+    
+    .camera-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .camera-controls {
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: var(--space-xl);
+      padding: 0 var(--space-lg);
+    }
+    
+    .camera-btn {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    
+    .camera-capture {
+      background: var(--white);
+      border: 4px solid rgba(255, 255, 255, 0.5);
+    }
+    
+    .camera-capture:active {
+      transform: scale(0.9);
+    }
+    
+    .camera-cancel {
+      background: var(--danger);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+    
+    /* ========== 音乐首次访问提示 - V5优化 ========== */
+    .music-toast {
+      position: fixed;
+      top: 20px;
+      right: 75px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 10px 14px;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      z-index: 1001;
+      animation: slideInLeft 0.3s ease;
+      max-width: 200px;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+    }
+    
+    /* 右侧箭头指向音乐图标 */
+    .music-toast::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -8px;
+      transform: translateY(-50%);
+      border-width: 8px 0 8px 8px;
+      border-style: solid;
+      border-color: transparent transparent transparent var(--secondary);
+    }
+    
+    .music-toast-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .music-toast-content {
+      font-size: 12px;
+      opacity: 0.95;
+      line-height: 1.3;
+      margin-bottom: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .music-toast-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      opacity: 0.9;
+      cursor: pointer;
+    }
+    
+    .music-toast-checkbox input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .music-toast-close {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    
+    .music-toast-close:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    /* Stats */
+    .stats {
+      display: flex;
+      gap: var(--space-md);
+      margin: var(--space-lg) 0;
+    }
+    
+    .stat-item {
+      flex: 1;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md);
+      text-align: center;
+      box-shadow: var(--shadow-md);
+    }
+    
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    .stat-label {
+      font-size: 12px;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+    
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: var(--white);
+      padding: 12px var(--space-lg);
+      border-radius: var(--radius-full);
+      font-size: 14px;
+      z-index: 1000;
+      animation: slideUp 0.3s ease;
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+    }
+    
+    /* Action Buttons */
+    .answer-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: var(--space-lg);
+      justify-content: center;
+    }
+    
+    .action-btn {
+      flex: 1;
+      height: 48px;
+      border: 2px solid rgba(132, 181, 159, 0.5);
+      border-radius: 12px;
+      background: white;
+      color: var(--primary);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .action-btn:hover {
+      background: rgba(132, 181, 159, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .action-btn:active {
+      transform: translateY(0);
+    }
+    
+    .action-btn.primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border-color: var(--primary);
+    }
+    
+    /* Responsive */
+    @media (min-width: 429px) {
+      .container {
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .music-panel {
+        right: 10px;
+        left: 10px;
+        width: auto;
+        max-width: none;
+      }
+      
+      .music-toggle {
+        width: 44px;
+        height: 44px;
+      }
+      
+      .answer-text {
+        font-size: 18px;
+      }
+      
+      .answer-card {
+        padding: var(--space-lg);
+        min-height: 180px;
+      }
+      
+      .image-modal-img {
+        max-height: 70vh;
+      }
+      
+      .music-toast {
+        right: 65px;
+        left: auto;
+        width: auto;
+        max-width: 180px;
+      }
+      
+      .confirm-modal-content {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 音乐控制按钮 -->
+    <button class="music-toggle" id="musicToggle" onclick="toggleMusicPanel()">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+      </svg>
+    </button>
+    
+    <!-- 音乐控制面板 -->
+    <div class="music-panel" id="musicPanel">
+      <div class="music-panel-header">
+        <div class="music-panel-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--primary)">
+            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+          </svg>
+          音乐控制
+        </div>
+        <button class="close-btn" onclick="toggleMusicPanel()">×</button>
+      </div>
+      
+      <button class="music-switch paused" id="musicSwitch" onclick="toggleMusic()">
+        <span id="musicSwitchIcon">▶</span>
+        <span id="musicSwitchText">播放音乐</span>
+      </button>
+      
+      <select class="music-selector" id="musicSelector" onchange="changeMusic()">
+        <option value="0">1. 月光奏鸣曲（柔和钢琴）</option>
+        <option value="1">2. 森林晨曦（清脆钢琴）</option>
+        <option value="2">3. 心灵疗愈（空灵钢琴）</option>
+        <option value="3">4. 温柔细雨（舒缓雨声）</option>
+        <option value="4">5. 午后雷雨（雨点声）</option>
+        <option value="5">6. 春雨绵绵（细雨声）</option>
+        <option value="6">7. 清晨海浪（舒缓海浪）</option>
+        <option value="7">8. 深海冥想（深海声）</option>
+        <option value="8">9. 海滨漫步（海浪声）</option>
+        <option value="9">10. 自然白噪音（混合声）</option>
+      </select>
+      
+      <div class="volume-control">
+        <div class="volume-label">
+          <span>音量</span>
+          <span id="volumeValue">50%</span>
+        </div>
+        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50" oninput="changeVolume(this.value)">
+      </div>
+      
+      <div class="duration-options">
+        <button class="music-duration-btn active" onclick="setMusicDuration(5)">5分钟</button>
+        <button class="music-duration-btn" onclick="setMusicDuration(10)">10分钟</button>
+        <button class="music-duration-btn" onclick="setMusicDuration(15)">15分钟</button>
+        <button class="music-duration-btn" onclick="setMusicDuration(30)">30分钟</button>
+        <button class="music-duration-btn" onclick="setMusicDuration(60)">60分钟</button>
+      </div>
+      
+      <div class="now-playing" id="nowPlaying" style="display: none;">
+        <div class="wave-animation">
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+        </div>
+        <span id="nowPlayingText">月光奏鸣曲</span>
+      </div>
+    </div>
+    
+    <!-- V5新增：H5确认删除模态框 -->
+    <div class="confirm-modal" id="confirmModal">
+      <div class="confirm-modal-content">
+        <div class="confirm-modal-icon">🗑️</div>
+        <div class="confirm-modal-title">确认删除</div>
+        <div class="confirm-modal-message" id="confirmModalMessage">删除后不可恢复，是否确认？</div>
+        <div class="confirm-modal-actions">
+          <button class="confirm-modal-btn cancel" onclick="hideConfirmModal()">取消</button>
+          <button class="confirm-modal-btn confirm" onclick="confirmDelete()">确认删除</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 摄像头预览 -->
+    <div class="camera-preview" id="cameraPreview">
+      <video class="camera-video" id="cameraVideo" autoplay playsinline></video>
+      <div class="camera-controls">
+        <button class="camera-btn camera-cancel" onclick="cancelCamera()">✕</button>
+        <button class="camera-btn camera-capture" onclick="capturePhoto()"></button>
+      </div>
+    </div>
+    
+    <!-- 图片放大预览模态框 -->
+    <div class="image-modal" id="imageModal">
+      <div class="image-modal-content">
+        <button class="image-modal-close" onclick="closeImageModal()">×</button>
+        <img class="image-modal-img" id="imageModalImg" src="" alt="预览图片">
+        <div class="image-modal-nav" id="imageModalNav">
+          <button class="image-modal-nav-btn" id="prevBtn" onclick="prevImage()">← 上一张</button>
+          <button class="image-modal-nav-btn" id="nextBtn" onclick="nextImage()">下一张 →</button>
+        </div>
+        <div class="image-modal-counter" id="imageModalCounter">1 / 3</div>
+      </div>
+    </div>
+    
+    <!-- 首页 -->
+    <div id="home" class="page active">
+      <div class="duck-avatar" onclick="bounceDuck(this)">🦆</div>
+      
+      <h1 style="text-align: center; color: var(--primary); margin-bottom: 8px;">小鸭梨</h1>
+      <p style="text-align: center; color: var(--accent); margin-bottom: var(--space-2xl); font-size: 14px;">让心灵小憩片刻</p>
+      
+      <div class="card" onclick="showPage('meditation')">
+        <h3 style="color: var(--primary); margin-bottom: 8px;">🧘 正念冥想</h3>
+        <p style="font-size: 12px; color: var(--accent);">放松身心，缓解压力</p>
+      </div>
+      
+      <div class="card" onclick="showPage('diary')">
+        <h3 style="color: var(--primary); margin-bottom: 8px;">📝 减压日记</h3>
+        <p style="font-size: 12px; color: var(--accent);">记录心情，倾诉心声</p>
+      </div>
+      
+      <div class="card" onclick="showPage('answerbook')">
+        <h3 style="color: var(--primary); margin-bottom: 8px;">📖 答案之书</h3>
+        <p style="font-size: 12px; color: var(--accent);">寻找答案，获得启示</p>
+      </div>
+    </div>
+    
+    <!-- 正念冥想页 -->
+    <div id="meditation" class="page">
+      <div class="header">
+        <button class="back-btn" onclick="showPage('home')">←</button>
+        <div class="header-title">正念冥想</div>
+        <div></div>
+      </div>
+      
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-value" id="streak">0</div>
+          <div class="stat-label">连续天数</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="totalTime">0</div>
+          <div class="stat-label">总时长(分)</div>
+        </div>
+      </div>
+      
+      <div class="duck-avatar" style="width: 80px; height: 80px; font-size: 40px; margin: var(--space-lg) auto;">🦆</div>
+      
+      <!-- 优化后的圆圈动效 - V3: 草绿→鸭黄→浅绿 -->
+      <div class="breath-circle paused" id="breathCircle">
+        <div class="breath-text" id="breathText">开始冥想</div>
+      </div>
+      
+      <p style="text-align: center; color: var(--accent); margin: 40px 0;" id="breathInstruction">点击下方按钮开始</p>
+      
+      <div class="audio-controls">
+        <button class="duration-btn active" onclick="setDuration(3)">3分钟</button>
+        <button class="duration-btn" onclick="setDuration(5)">5分钟</button>
+        <button class="duration-btn" onclick="setDuration(10)">10分钟</button>
+      </div>
+      
+      <button class="btn btn-primary" onclick="toggleMeditation()" id="meditationBtn" style="margin-top: var(--space-lg);">开始冥想</button>
+    </div>
+    
+    <!-- 减压日记页 -->
+    <div id="diary" class="page">
+      <div class="header">
+        <button class="back-btn" onclick="showPage('home')">←</button>
+        <div class="header-title">减压日记</div>
+        <div></div>
+      </div>
+      
+      <div class="emotion-selector">
+        <div class="emotion-item" onclick="selectEmotion('happy')">
+          <div class="emotion-emoji">😊</div>
+          <div class="emotion-label">开心</div>
+        </div>
+        <div class="emotion-item" onclick="selectEmotion('calm')">
+          <div class="emotion-emoji">😐</div>
+          <div class="emotion-label">平静</div>
+        </div>
+        <div class="emotion-item" onclick="selectEmotion('anxious')">
+          <div class="emotion-emoji">😰</div>
+          <div class="emotion-label">焦虑</div>
+        </div>
+        <div class="emotion-item" onclick="selectEmotion('sad')">
+          <div class="emotion-emoji">😢</div>
+          <div class="emotion-label">悲伤</div>
+        </div>
+        <div class="emotion-item" onclick="selectEmotion('angry')">
+          <div class="emotion-emoji">😠</div>
+          <div class="emotion-label">愤怒</div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h4 style="margin-bottom: var(--space-sm); color: var(--primary);">今天发生了什么？</h4>
+        <textarea class="textarea" id="diaryText" rows="5" placeholder="写下你的心情..." maxlength="500"></textarea>
+        <div class="char-count" id="charCount">0/500</div>
+        
+        <!-- 拍照和上传照片按钮 -->
+        <div class="photo-buttons">
+          <button class="photo-btn" onclick="startCamera()">
+            📷 拍照
+          </button>
+          <button class="photo-btn" onclick="document.getElementById('photoUpload').click()">
+            🖼️ 上传照片
+          </button>
+          <input type="file" id="photoUpload" accept="image/*" multiple style="display: none;" onchange="handlePhotoUpload(event)">
+        </div>
+        
+        <!-- 图片预览 -->
+        <div class="image-preview-container" id="imagePreviewContainer" style="display: none;">
+          <h5 style="margin-top: var(--space-md); color: var(--accent);">已选照片：</h5>
+          <div class="image-preview-list" id="imagePreviewList"></div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="saveDiary()" style="margin-top: var(--space-md);">提交日记</button>
+      </div>
+      
+      <h4 style="margin: var(--space-lg) 0 var(--space-md); color: var(--primary);">历史记录</h4>
+      <div class="history-list" id="diaryList">
+        <p style="text-align: center; color: var(--accent); opacity: 0.6; padding: var(--space-lg);">还没有日记记录哦~</p>
+      </div>
+      
+      <!-- 清空日记按钮 -->
+      <button class="clear-all-btn" id="clearAllBtn" onclick="confirmDeleteAll()" style="display: none;">
+        🗑️ 清空所有日记
+      </button>
+    </div>
+    
+    <!-- 答案之书页 -->
+    <div id="answerbook" class="page">
+      <div class="header">
+        <button class="back-btn" onclick="showPage('home')">←</button>
+        <div class="header-title">答案之书</div>
+        <div></div>
+      </div>
+      
+      <div class="duck-avatar" style="width: 80px; height: 80px; font-size: 40px; margin: var(--space-xl) auto;">📖</div>
+      
+      <div class="card" id="questionCard">
+        <h4 style="margin-bottom: var(--space-md); color: var(--primary); text-align: center;">在心中想一个问题，然后提问</h4>
+        <input type="text" class="input" id="questionInput" placeholder="输入你的问题..." maxlength="100">
+        <button class="btn btn-primary" onclick="askQuestion()" style="margin-top: var(--space-md);">提问</button>
+      </div>
+      
+      <div class="countdown" id="countdown" style="display: none;">3</div>
+      
+      <div class="answer-card" id="answerCard" style="display: none;">
+        <div class="answer-icon">✨</div>
+        <div class="answer-text" id="answerText"></div>
+        <div class="answer-type" id="answerType"></div>
+      </div>
+      
+      <div class="answer-actions" id="answerActions" style="display: none;">
+        <button class="action-btn primary" onclick="askAgain()">再问一次</button>
+        <button class="action-btn" onclick="saveAnswer()">收藏答案</button>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // ============ 数据定义 ============
+    // 答案之书内容（50条）
+    const answersByType = {
+      positive: [
+        '你的直觉是对的，相信它！',
+        '现在就是最好的时机，行动吧！',
+        '你已经准备好迎接新的挑战了。',
+        '相信自己，你能做到的。',
+        '转折点即将到来，保持乐观。',
+        '你的努力会有回报的。',
+        '机会就在眼前，抓住它！',
+        '一切都会好起来的。',
+        '你比想象中更强大。',
+        '放心大胆地去追求吧。',
+        '星星正在为你闪耀。',
+        '美好的事情即将发生。',
+        '你的梦想值得被实现。',
+        '风雨过后就是彩虹。',
+        '今天是新的一天，充满希望。'
+      ],
+      reminder: [
+        '给自己一点时间，不要急。',
+        '也许你应该先休息一下。',
+        '答案在你的心里，静下来聆听。',
+        '有时候放手也是一种智慧。',
+        '问问身边的人，他们会有建议。',
+        '不要过度思考，简单一点。',
+        '做减法可能比做加法更有效。',
+        '相信过程，结果自然会出现。',
+        '暂时放下，过段时间再想。',
+        '也许这不是你真正想要的。',
+        '重新评估一下优先级吧。',
+        '先从小事做起，一步步来。',
+        '你的选择会影响未来，慎重决定。',
+        '问问自己：这重要吗？',
+        '有时候答案就是"不知道"。',
+        '让时间来证明一切。',
+        '不要被别人的看法影响。',
+        '保持专注，不要分心。',
+        '也许你需要的只是勇气。',
+        '记住你的初心。'
+      ],
+      thinking: [
+        '人生没有标准答案，只有你的答案。',
+        '困难是成长的阶梯。',
+        '每一个选择都会塑造未来的你。',
+        '平衡是人生的艺术。',
+        '内心的平静比外在的成功更重要。',
+        '接受不完美，那是真实的生活。',
+        '经验是最好的老师。',
+        '真正的自由是选择的权利。',
+        '过去不等于未来。',
+        '当下就是一切。'
+      ],
+      comfort: [
+        '抱抱自己，你已经很棒了。',
+        '允许自己脆弱，那不是错。',
+        '无论如何，你都值得被爱。',
+        '哭出来没关系，释放情绪。',
+        '这个世界上，你独一无二。'
+      ]
+    };
+    
+    const typeNames = {
+      positive: '✨ 积极正面',
+      reminder: '💡 温和提醒',
+      thinking: '🤔 深度思考',
+      comfort: '💖 治愈安慰'
+    };
+    
+    // ============ 音乐相关 ============
+    let audioContext = null;
+    let currentOscillator = null;
+    let gainNode = null;
+    let isPlaying = false;
+    let currentMusicIndex = 0;
+    let musicVolume = 0.5;
+    let musicDuration = 5;
+    let musicTimer = null;
+    let musicFadeTimer = null;
+    
+    // V5优化：音乐首次访问提示
+    let hideMusicToast = localStorage.getItem('hideMusicToast') === 'true';
+    let musicToastTimer = null;
+    
+    const musicNames = [
+      '月光奏鸣曲（柔和钢琴）', '森林晨曦（清脆钢琴）', '心灵疗愈（空灵钢琴）',
+      '温柔细雨（舒缓雨声）', '午后雷雨（雨点声）', '春雨绵绵（细雨声）',
+      '清晨海浪（舒缓海浪）', '深海冥想（深海声）', '海滨漫步（海浪声）',
+      '自然白噪音（混合声）'
+    ];
+    
+    function initAudio() {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        gainNode = audioContext.createGain();
+        gainNode.connect(audioContext.destination);
+        gainNode.gain.value = musicVolume;
+      }
+    }
+    
+    // V5修复：音乐面板点击外部区域可关闭
+    function toggleMusicPanel() {
+      const panel = document.getElementById('musicPanel');
+      panel.classList.toggle('visible');
+    }
+    
+    // V5新增：点击面板外部关闭（不包含音乐提示弹窗）
+    document.addEventListener('click', function(e) {
+      const panel = document.getElementById('musicPanel');
+      const toggle = document.getElementById('musicToggle');
+      const confirmModal = document.getElementById('confirmModal');
+      const toast = document.getElementById('musicToast');
+      
+      // 不要在确认弹窗打开时处理
+      if (confirmModal.classList.contains('visible')) return;
+      
+      // 如果点击的是音乐提示弹窗，不处理（由toast的onclick处理）
+      if (toast && toast.contains(e.target)) return;
+      
+      // 点击面板外部且不是点击toggle按钮时，关闭面板
+      if (panel.classList.contains('visible') && 
+          !panel.contains(e.target) && 
+          !toggle.contains(e.target)) {
+        panel.classList.remove('visible');
+      }
+    });
+    
+    function createWhiteNoise() {
+      const bufferSize = 2 * audioContext.sampleRate;
+      const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+      const output = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        output[i] = Math.random() * 2 - 1;
+      }
+      return buffer;
+    }
+    
+    function createPianoSound(index) {
+      const chordSets = [
+        [261.63, 329.63, 392.00, 523.25],
+        [329.63, 392.00, 493.88, 659.25],
+        [196.00, 246.94, 293.66, 392.00]
+      ];
+      
+      const frequencies = chordSets[index];
+      const intervals = [3000, 2500, 3500];
+      const baseVolume = [0.35, 0.3, 0.4];
+      
+      const oscillators = [];
+      let noteIndex = 0;
+      let playTimeout = null;
+      
+      function playNote() {
+        if (!isPlaying) return;
+        
+        const osc = audioContext.createOscillator();
+        const noteGain = audioContext.createGain();
+        
+        osc.type = 'sine';
+        osc.frequency.value = frequencies[noteIndex];
+        
+        const now = audioContext.currentTime;
+        noteGain.gain.setValueAtTime(0, now);
+        noteGain.gain.linearRampToValueAtTime(baseVolume[index] * musicVolume, now + 0.05);
+        noteGain.gain.linearRampToValueAtTime(baseVolume[index] * musicVolume * 0.7, now + 0.2);
+        noteGain.gain.linearRampToValueAtTime(baseVolume[index] * musicVolume * 0.5, now + 0.8);
+        noteGain.gain.linearRampToValueAtTime(0.01, now + 2.0);
+        
+        osc.connect(noteGain).connect(gainNode);
+        osc.start(now);
+        osc.stop(now + 2.1);
+        
+        oscillators.push({ osc, noteGain });
+        
+        noteIndex = (noteIndex + 1) % frequencies.length;
+        
+        playTimeout = setTimeout(() => {
+          if (isPlaying) {
+            playNote();
+          }
+        }, intervals[index]);
+      }
+      
+      setTimeout(playNote, 100);
+      
+      return {
+        stop: () => {
+          clearTimeout(playTimeout);
+          oscillators.forEach(({ osc }) => {
+            try {
+              osc.stop();
+            } catch (e) {}
+          });
+        }
+      };
+    }
+    
+    function createRainSound(index) {
+      const noiseSource = audioContext.createBufferSource();
+      noiseSource.buffer = createWhiteNoise();
+      
+      const filter = audioContext.createBiquadFilter();
+      filter.type = 'lowpass';
+      
+      const filterFreqs = [800, 1200, 600];
+      const baseVolume = [0.25, 0.3, 0.2];
+      
+      filter.frequency.value = filterFreqs[index];
+      
+      const noiseGain = audioContext.createGain();
+      noiseGain.gain.value = baseVolume[index] * musicVolume;
+      
+      noiseSource.connect(filter).connect(noiseGain).connect(gainNode);
+      noiseSource.loop = true;
+      noiseSource.start();
+      
+      return { noiseSource, noiseGain };
+    }
+    
+    function createOceanSound(index) {
+      const noiseSource = audioContext.createBufferSource();
+      noiseSource.buffer = createWhiteNoise();
+      
+      const filter = audioContext.createBiquadFilter();
+      filter.type = 'lowpass';
+      
+      const filterFreqs = [300, 200, 400];
+      const waveFreqs = [0.08, 0.05, 0.12];
+      const baseVolume = [0.2, 0.15, 0.25];
+      
+      filter.frequency.value = filterFreqs[index];
+      
+      const osc = audioContext.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = waveFreqs[index];
+      
+      const oscGain = audioContext.createGain();
+      oscGain.gain.value = baseVolume[index] * musicVolume * 0.8;
+      
+      osc.connect(oscGain).connect(filter.gain);
+      osc.start();
+      
+      const noiseGain = audioContext.createGain();
+      noiseGain.gain.value = baseVolume[index] * musicVolume;
+      
+      noiseSource.connect(filter).connect(noiseGain).connect(gainNode);
+      noiseSource.loop = true;
+      noiseSource.start();
+      
+      return { noiseSource, osc, noiseGain };
+    }
+    
+    function createNaturalNoise() {
+      const bufferSize = 2 * audioContext.sampleRate;
+      const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+      const output = buffer.getChannelData(0);
+      
+      let b0 = 0, b1 = 0, b2 = 0;
+      for (let i = 0; i < bufferSize; i++) {
+        const white = Math.random() * 2 - 1;
+        b0 = 0.99886 * b0 + white * 0.0555179;
+        b1 = 0.99332 * b1 + white * 0.0750759;
+        b2 = 0.96900 * b2 + white * 0.1538520;
+        output[i] = b0 + b1 + b2 + white * 0.5362;
+      }
+      
+      const noiseSource = audioContext.createBufferSource();
+      noiseSource.buffer = buffer;
+      
+      const filter = audioContext.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.value = 600;
+      filter.Q.value = 0.5;
+      
+      const noiseGain = audioContext.createGain();
+      noiseGain.gain.value = 0.2 * musicVolume;
+      
+      noiseSource.connect(filter).connect(noiseGain).connect(gainNode);
+      noiseSource.loop = true;
+      noiseSource.start();
+      
+      return { noiseSource, noiseGain };
+    }
+    
+    function startMusic() {
+      initAudio();
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      
+      stopMusic(false);
+      
+      const index = currentMusicIndex;
+      
+      if (index < 3) {
+        currentOscillator = createPianoSound(index);
+      } else if (index < 6) {
+        currentOscillator = createRainSound(index - 3);
+      } else if (index < 9) {
+        currentOscillator = createOceanSound(index - 6);
+      } else {
+        currentOscillator = createNaturalNoise();
+      }
+      
+      isPlaying = true;
+      
+      clearTimeout(musicTimer);
+      clearTimeout(musicFadeTimer);
+      
+      musicTimer = setTimeout(() => {
+        if (gainNode) {
+          const fadeDuration = 2000;
+          const startTime = audioContext.currentTime;
+          const startGain = gainNode.gain.value;
+          
+          musicFadeTimer = setInterval(() => {
+            const elapsed = audioContext.currentTime - startTime;
+            const progress = elapsed / (fadeDuration / 1000);
+            
+            if (progress >= 1) {
+              stopMusic();
+            } else {
+              gainNode.gain.value = startGain * (1 - progress);
+            }
+          }, 50);
+        }
+      }, musicDuration * 60 * 1000);
+      
+      updateMusicUI();
+    }
+    
+    function stopMusic(fadeOut = true) {
+      if (fadeOut && gainNode && isPlaying) {
+        const fadeDuration = 500;
+        const startTime = audioContext.currentTime;
+        const startGain = gainNode.gain.value;
+        
+        const fadeInterval = setInterval(() => {
+          const elapsed = audioContext.currentTime - startTime;
+          const progress = elapsed / (fadeDuration / 1000);
+          
+          if (progress >= 1) {
+            clearInterval(fadeInterval);
+            performStop();
+          } else {
+            gainNode.gain.value = startGain * (1 - progress);
+          }
+        }, 20);
+      } else {
+        performStop();
+      }
+    }
+    
+    function performStop() {
+      if (currentOscillator) {
+        if (currentOscillator.noiseSource) {
+          currentOscillator.noiseSource.stop();
+          if (currentOscillator.osc) {
+            currentOscillator.osc.stop();
+          }
+        } else {
+          currentOscillator.stop && currentOscillator.stop();
+        }
+        currentOscillator = null;
+      }
+      
+      clearTimeout(musicTimer);
+      clearTimeout(musicFadeTimer);
+      isPlaying = false;
+      
+      if (gainNode) {
+        gainNode.gain.value = musicVolume;
+      }
+      
+      updateMusicUI();
+    }
+    
+    function toggleMusic() {
+      if (isPlaying) {
+        stopMusic();
+      } else {
+        startMusic();
+      }
+    }
+    
+    function changeMusic() {
+      currentMusicIndex = parseInt(document.getElementById('musicSelector').value);
+      if (isPlaying) {
+        stopMusic(false);
+        setTimeout(() => startMusic(), 100);
+      }
+      updateMusicUI();
+    }
+    
+    function changeVolume(value) {
+      musicVolume = value / 100;
+      document.getElementById('volumeValue').textContent = value + '%';
+      
+      if (gainNode) {
+        gainNode.gain.value = musicVolume;
+      }
+    }
+    
+    function setMusicDuration(minutes) {
+      musicDuration = minutes;
+      document.querySelectorAll('.music-duration-btn').forEach(btn => btn.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+    }
+    
+    function updateMusicUI() {
+      const toggle = document.getElementById('musicToggle');
+      const panelToggle = document.getElementById('musicSwitch');
+      const icon = document.getElementById('musicSwitchIcon');
+      const text = document.getElementById('musicSwitchText');
+      const nowPlaying = document.getElementById('nowPlaying');
+      const nowPlayingText = document.getElementById('nowPlayingText');
+      
+      if (isPlaying) {
+        toggle.classList.add('playing');
+        panelToggle.classList.remove('paused');
+        icon.textContent = '⏸';
+        text.textContent = '暂停音乐';
+        nowPlaying.style.display = 'flex';
+        nowPlayingText.textContent = musicNames[currentMusicIndex];
+      } else {
+        toggle.classList.remove('playing');
+        panelToggle.classList.add('paused');
+        icon.textContent = '▶';
+        text.textContent = '播放音乐';
+        nowPlaying.style.display = 'none';
+      }
+    }
+    
+    // V5优化：显示音乐首次访问提示（每次显示6秒，可选择不再提示）
+    function showMusicToast() {
+      if (hideMusicToast) return;
+      
+      const toast = document.createElement('div');
+      toast.className = 'music-toast';
+      toast.id = 'musicToast';
+      toast.innerHTML = `
+        <button class="music-toast-close" onclick="hideMusicToastNow()">×</button>
+        <div class="music-toast-title">
+          <span>🎵</span>
+          <span>开启音乐</span>
+        </div>
+        <div class="music-toast-content">
+          舒缓旋律，放松心情
+        </div>
+        <label class="music-toast-checkbox">
+          <input type="checkbox" id="hideMusicToastCheckbox">
+          <span>不再提示</span>
+        </label>
+      `;
+      toast.onclick = (e) => {
+        // 点击非checkbox和关闭按钮区域
+        if (!e.target.closest('.music-toast-checkbox') && !e.target.closest('.music-toast-close')) {
+          // 先关闭提示
+          hideMusicToastNow();
+          
+          // 确保音乐面板显示（使用setTimeout避免立即被全局点击事件关闭）
+          setTimeout(() => {
+            const panel = document.getElementById('musicPanel');
+            if (!panel.classList.contains('visible')) {
+              panel.classList.add('visible');
+            }
+          }, 10);
+        }
+      };
+      document.body.appendChild(toast);
+      
+      // 6秒后自动关闭
+      musicToastTimer = setTimeout(() => {
+        if (document.getElementById('musicToast')) {
+          hideMusicToastNow();
+        }
+      }, 6000);
+    }
+    
+    // V5新增：立即隐藏音乐提示
+    function hideMusicToastNow() {
+      const checkbox = document.getElementById('hideMusicToastCheckbox');
+      if (checkbox && checkbox.checked) {
+        hideMusicToast = true;
+        localStorage.setItem('hideMusicToast', 'true');
+      }
+      
+      if (musicToastTimer) {
+        clearTimeout(musicToastTimer);
+        musicToastTimer = null;
+      }
+      
+      const toast = document.getElementById('musicToast');
+      if (toast) {
+        toast.remove();
+      }
+    }
+    
+    // ============ V5新增：H5确认删除模态框 ============
+    let currentDeleteAction = null;
+    let currentDeleteTarget = null;
+    
+    // 显示确认模态框
+    function showConfirmModal(message, action) {
+      document.getElementById('confirmModalMessage').textContent = message;
+      currentDeleteAction = action;
+      document.getElementById('confirmModal').classList.add('visible');
+    }
+    
+    // 隐藏确认模态框
+    function hideConfirmModal() {
+      document.getElementById('confirmModal').classList.remove('visible');
+      currentDeleteAction = null;
+      currentDeleteTarget = null;
+    }
+    
+    // 执行删除操作
+    function confirmDelete() {
+      if (currentDeleteAction) {
+        currentDeleteAction(currentDeleteTarget);
+      }
+      hideConfirmModal();
+    }
+    
+    // 点击模态框背景关闭
+    document.getElementById('confirmModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        hideConfirmModal();
+      }
+    });
+    
+    // ============ 原有功能 ============
+    let currentPage = 'home';
+    let selectedEmotion = null;
+    let meditationRunning = false;
+    let meditationDuration = 3;
+    let breathInterval = null;
+    let currentAnswer = null;
+    let currentAnswerType = null;
+    
+    // ============ 摄像头和照片功能 ============
+    let cameraStream = null;
+    let selectedImages = [];
+    const MAX_IMAGES = 3;
+    
+    // 启动摄像头
+    async function startCamera() {
+      try {
+        cameraStream = await navigator.mediaDevices.getUserMedia({ 
+          video: { facingMode: 'environment' } 
+        });
+        
+        const video = document.getElementById('cameraVideo');
+        video.srcObject = cameraStream;
+        document.getElementById('cameraPreview').classList.add('visible');
+      } catch (err) {
+        console.error('无法访问摄像头:', err);
+        showToast('无法访问摄像头，请检查权限或使用上传功能');
+      }
+    }
+    
+    // 拍照
+    function capturePhoto() {
+      const video = document.getElementById('cameraVideo');
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      const imageData = canvas.toDataURL('image/jpeg', 0.8);
+      addImage(imageData);
+      
+      cancelCamera();
+    }
+    
+    // 取消拍照
+    function cancelCamera() {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+      }
+      document.getElementById('cameraPreview').classList.remove('visible');
+    }
+    
+    // 处理照片上传
+    function handlePhotoUpload(event) {
+      const files = event.target.files;
+      const remainingSlots = MAX_IMAGES - selectedImages.length;
+      
+      for (let i = 0; i < Math.min(files.length, remainingSlots); i++) {
+        const file = files[i];
+        
+        // 检查文件大小（最大5MB）
+        if (file.size > 5 * 1024 * 1024) {
+          showToast(`图片 ${file.name} 超过5MB，已跳过`);
+          continue;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          addImage(e.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+      
+      if (files.length > remainingSlots) {
+        showToast(`最多只能上传${MAX_IMAGES}张照片，已选择前${remainingSlots}张`);
+      }
+      
+      event.target.value = '';
+    }
+    
+    // 添加图片到预览
+    function addImage(dataUrl) {
+      if (selectedImages.length >= MAX_IMAGES) {
+        showToast('最多只能添加3张照片');
+        return;
+      }
+      
+      selectedImages.push(dataUrl);
+      updateImagePreview();
+    }
+    
+    // 移除图片
+    function removeImage(index) {
+      selectedImages.splice(index, 1);
+      updateImagePreview();
+    }
+    
+    // 更新图片预览
+    function updateImagePreview() {
+      const container = document.getElementById('imagePreviewContainer');
+      const list = document.getElementById('imagePreviewList');
+      
+      if (selectedImages.length === 0) {
+        container.style.display = 'none';
+        return;
+      }
+      
+      container.style.display = 'block';
+      list.innerHTML = selectedImages.map((img, index) => `
+        <div class="image-preview-item">
+          <img src="${img}" alt="预览">
+          <button class="image-preview-remove" onclick="removeImage(${index})">✕</button>
+        </div>
+      `).join('');
+    }
+    
+    // ============ 图片放大预览功能 - V5修复 ============
+    let currentPreview = null;
+    
+    // 打开图片预览
+    function showImagePreview(diaryId, imageIndex) {
+      const diaries = JSON.parse(localStorage.getItem('diaries') || '[]');
+      const diary = diaries.find(d => d.id === diaryId);
+      
+      if (diary && diary.images && diary.images[imageIndex]) {
+        currentPreview = {
+          diaryId,
+          imageIndex,
+          images: diary.images
+        };
+        
+        // 设置图片
+        document.getElementById('imageModalImg').src = diary.images[imageIndex];
+        
+        // 更新计数器
+        document.getElementById('imageModalCounter').textContent = 
+          `${imageIndex + 1} / ${diary.images.length}`;
+        
+        // 更新导航按钮状态
+        updatePreviewNavigation();
+        
+        // 显示模态框
+        document.getElementById('imageModal').classList.add('visible');
+      }
+    }
+    
+    // 更新导航按钮状态
+    function updatePreviewNavigation() {
+      if (!currentPreview) return;
+      
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const nav = document.getElementById('imageModalNav');
+      const counter = document.getElementById('imageModalCounter');
+      
+      // 如果只有一张图片,隐藏导航按钮
+      if (currentPreview.images.length <= 1) {
+        nav.style.display = 'none';
+        counter.style.display = 'none';
+      } else {
+        nav.style.display = 'flex';
+        counter.style.display = 'block';
+        
+        // 更新按钮禁用状态
+        prevBtn.disabled = currentPreview.imageIndex === 0;
+        nextBtn.disabled = currentPreview.imageIndex === currentPreview.images.length - 1;
+      }
+    }
+    
+    // 上一张
+    function prevImage() {
+      if (currentPreview && currentPreview.imageIndex > 0) {
+        showImagePreview(
+          currentPreview.diaryId,
+          currentPreview.imageIndex - 1
+        );
+      }
+    }
+    
+    // 下一张
+    function nextImage() {
+      if (currentPreview && currentPreview.imageIndex < currentPreview.images.length - 1) {
+        showImagePreview(
+          currentPreview.diaryId,
+          currentPreview.imageIndex + 1
+        );
+      }
+    }
+    
+    // V5修复：关闭图片预览（修复closeImageModal函数名）
+    function closeImageModal() {
+      document.getElementById('imageModal').classList.remove('visible');
+      currentPreview = null;
+    }
+    
+    // V5修复：点击模态框背景关闭（修复事件监听）
+    document.addEventListener('click', function(e) {
+      const modal = document.getElementById('imageModal');
+      const closeBtn = modal.querySelector('.image-modal-close');
+      
+      // 点击模态框背景（非关闭按钮和图片）时关闭
+      if (modal.classList.contains('visible') && 
+          e.target === modal) {
+        closeImageModal();
+      }
+    });
+    
+    // 键盘事件
+    document.addEventListener('keydown', function(e) {
+      if (!currentPreview) return;
+      
+      if (e.key === 'Escape') {
+        closeImageModal();
+      } else if (e.key === 'ArrowLeft') {
+        prevImage();
+      } else if (e.key === 'ArrowRight') {
+        nextImage();
+      }
+    });
+    
+    // ============ 日记功能（带删除和图片） ============
+    function saveDiary() {
+      const text = document.getElementById('diaryText').value.trim();
+      if (!selectedEmotion) {
+        showToast('请先选择情绪~');
+        return;
+      }
+      if (!text && selectedImages.length === 0) {
+        showToast('请写下你的心情或添加照片~');
+        return;
+      }
+      
+      const diaries = JSON.parse(localStorage.getItem('diaries') || '[]');
+      diaries.unshift({
+        id: Date.now(),
+        date: new Date().toLocaleDateString('zh-CN'),
+        emotion: selectedEmotion,
+        text: text,
+        images: selectedImages.length > 0 ? [...selectedImages] : [],
+        timestamp: Date.now()
+      });
+      localStorage.setItem('diaries', JSON.stringify(diaries));
+      
+      // 清空表单
+      document.getElementById('diaryText').value = '';
+      document.getElementById('charCount').textContent = '0/500';
+      selectedImages = [];
+      selectedEmotion = null;
+      document.querySelectorAll('.emotion-item').forEach(item => item.classList.remove('selected'));
+      updateImagePreview();
+      
+      loadDiaries();
+      showToast('日记保存成功！');
+    }
+    
+    function loadDiaries() {
+      const diaries = JSON.parse(localStorage.getItem('diaries') || '[]');
+      const container = document.getElementById('diaryList');
+      const clearAllBtn = document.getElementById('clearAllBtn');
+      
+      if (diaries.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: var(--accent); opacity: 0.6; padding: var(--space-lg);">还没有日记记录哦~</p>';
+        clearAllBtn.style.display = 'none';
+        return;
+      }
+      
+      clearAllBtn.style.display = 'block';
+      
+      const emojiMap = {
+        happy: '😊',
+        calm: '😐',
+        anxious: '😰',
+        sad: '😢',
+        angry: '😠'
+      };
+      
+      // 生成图片HTML（可点击放大）
+      const getImagesHtml = (diary) => {
+        if (!diary.images || diary.images.length === 0) return '';
+        return diary.images.map((img, idx) => 
+          `<img src="${img}" class="diary-image" alt="日记图片" onclick="event.stopPropagation(); showImagePreview(${diary.id}, ${idx})">`
+        ).join('');
+      };
+      
+      container.innerHTML = diaries.map(diary => `
+        <div class="history-item" onclick="showDiaryDetail('${diary.id}')">
+          <div class="history-emoji">${emojiMap[diary.emotion]}</div>
+          <div class="history-content">
+            <div class="history-date">${diary.date}</div>
+            <div class="history-text">${diary.text || '[仅图片]'}</div>
+            ${getImagesHtml(diary)}
+          </div>
+          <button class="delete-btn" onclick="event.stopPropagation(); deleteDiary(${diary.id})">🗑️</button>
+        </div>
+      `).join('');
+    }
+    
+    // V5优化：删除单条日记（使用H5模态框）
+    function deleteDiary(id) {
+      showConfirmModal('删除后不可恢复，是否确认？', function() {
+        const diaries = JSON.parse(localStorage.getItem('diaries') || '[]');
+        const updatedDiaries = diaries.filter(d => d.id !== id);
+        localStorage.setItem('diaries', JSON.stringify(updatedDiaries));
+        loadDiaries();
+        showToast('日记已删除');
+      });
+    }
+    
+    // V5优化：清空所有日记（使用H5模态框）
+    function confirmDeleteAll() {
+      showConfirmModal('清空所有日记后不可恢复，是否确认？', function() {
+        localStorage.removeItem('diaries');
+        loadDiaries();
+        showToast('所有日记已清空');
+      });
+    }
+    
+    function showDiaryDetail(id) {
+      const diaries = JSON.parse(localStorage.getItem('diaries') || '[]');
+      const diary = diaries.find(d => d.id == id);
+      if (diary) {
+        let detail = `${diary.text || '[仅图片日记]'}`;
+        if (diary.images && diary.images.length > 0) {
+          detail += `\n\n[包含${diary.images.length}张图片]`;
+        }
+        showToast(detail);
+      }
+    }
+    
+    document.getElementById('diaryText').addEventListener('input', function() {
+      const count = this.value.length;
+      document.getElementById('charCount').textContent = `${count}/500`;
+    });
+    
+    // ============ 优化后的正念冥想功能 - V3 ============
+    function setDuration(minutes) {
+      meditationDuration = minutes;
+      document.querySelectorAll('.duration-btn').forEach(btn => btn.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+    }
+    
+    function toggleMeditation() {
+      const btn = document.getElementById('meditationBtn');
+      const circle = document.getElementById('breathCircle');
+      const text = document.getElementById('breathText');
+      const instruction = document.getElementById('breathInstruction');
+      
+      if (!meditationRunning) {
+        meditationRunning = true;
+        btn.textContent = '结束冥想';
+        circle.classList.remove('paused');
+        text.textContent = '吸气';
+        instruction.textContent = '跟随圆圈变化调整呼吸';
+        
+        // 开始呼吸循环
+        startBreathCycle();
+        
+        showToast(`开始${meditationDuration}分钟冥想`);
+      } else {
+        meditationRunning = false;
+        btn.textContent = '开始冥想';
+        circle.classList.remove('inhale', 'hold', 'exhale');
+        circle.classList.add('paused');
+        text.textContent = '开始冥想';
+        instruction.textContent = '点击下方按钮开始';
+        
+        if (breathInterval) {
+          clearTimeout(breathInterval);
+          breathInterval = null;
+        }
+        
+        const streak = parseInt(document.getElementById('streak').textContent);
+        const totalTime = parseInt(document.getElementById('totalTime').textContent);
+        document.getElementById('streak').textContent = streak + 1;
+        document.getElementById('totalTime').textContent = totalTime + meditationDuration;
+        saveData();
+        
+        showToast('冥想完成！继续保持！');
+      }
+    }
+    
+    function startBreathCycle() {
+      if (!meditationRunning) return;
+      
+      const circle = document.getElementById('breathCircle');
+      const text = document.getElementById('breathText');
+      
+      // 阶段时长：5秒吸气，5秒屏息，5秒呼气
+      const INHALE_TIME = 5000;
+      const HOLD_TIME = 5000;
+      const EXHALE_TIME = 5000;
+      
+      function cycle() {
+        if (!meditationRunning) return;
+        
+        // 吸气阶段 - 圆圈放大，变草绿色
+        circle.className = 'breath-circle inhale';
+        text.textContent = '吸气';
+        
+        breathInterval = setTimeout(() => {
+          if (!meditationRunning) return;
+          
+          // 屏息阶段 - 圆圈保持最大，变小黄鸭黄色，轻微脉动
+          circle.className = 'breath-circle hold';
+          text.textContent = '保持';
+          
+          breathInterval = setTimeout(() => {
+            if (!meditationRunning) return;
+            
+            // 呼气阶段 - 圆圈缩小，变浅绿色
+            circle.className = 'breath-circle exhale';
+            text.textContent = '呼气';
+            
+            breathInterval = setTimeout(cycle, EXHALE_TIME);
+          }, HOLD_TIME);
+        }, INHALE_TIME);
+      }
+      
+      cycle();
+    }
+    
+    // ============ 答案之书功能 ============
+    // 记录最近使用的答案，防止重复
+    let recentAnswers = [];
+    const MAX_RECENT_ANSWERS = 20;
+    
+    function getRandomAnswer() {
+      // 获取所有答案
+      let allAnswers = [];
+      Object.keys(answersByType).forEach(type => {
+        answersByType[type].forEach(answer => {
+          allAnswers.push({ answer, type });
+        });
+      });
+      
+      // 过滤掉最近使用过的答案
+      const availableAnswers = allAnswers.filter(item => {
+        return !recentAnswers.some(recent => 
+          recent.answer === item.answer
+        );
+      });
+      
+      // 如果所有答案都用过了，清空记录重新开始
+      const answerPool = availableAnswers.length > 0 ? availableAnswers : allAnswers;
+      
+      // 随机选择
+      const randomIndex = Math.floor(Math.random() * answerPool.length);
+      const result = answerPool[randomIndex];
+      
+      // 添加到最近使用记录
+      recentAnswers.push(result);
+      
+      // 保持记录数量不超过最大值
+      if (recentAnswers.length > MAX_RECENT_ANSWERS) {
+        recentAnswers.shift();
+      }
+      
+      console.log('Selected answer:', result);
+      console.log('Recent answers count:', recentAnswers.length);
+      console.log('Available answers:', availableAnswers.length, '/', allAnswers.length);
+      
+      return result;
+    }
+    
+    function askQuestion() {
+      const question = document.getElementById('questionInput').value.trim();
+      if (!question) {
+        showToast('请输入你的问题~');
+        return;
+      }
+      
+      console.log('Question:', question);
+      
+      // 隐藏问题卡片
+      document.getElementById('questionCard').style.display = 'none';
+      
+      // 显示倒计时
+      document.getElementById('countdown').style.display = 'block';
+      document.getElementById('countdown').textContent = '3';
+      
+      let count = 3;
+      const countdownEl = document.getElementById('countdown');
+      
+      const countdownInterval = setInterval(() => {
+        count--;
+        countdownEl.textContent = count;
+        
+        if (count <= 0) {
+          clearInterval(countdownInterval);
+          showAnswer();
+        }
+      }, 1000);
+    }
+    
+    function showAnswer() {
+      console.log('showAnswer called');
+      
+      // 隐藏倒计时
+      document.getElementById('countdown').style.display = 'none';
+      
+      // 获取随机答案（带防重复）
+      const result = getRandomAnswer();
+      currentAnswer = result.answer;
+      currentAnswerType = result.type;
+      
+      console.log('Answer result:', result);
+      
+      // 获取DOM元素
+      const answerTextEl = document.getElementById('answerText');
+      const answerTypeEl = document.getElementById('answerType');
+      const answerCard = document.getElementById('answerCard');
+      
+      console.log('Answer text element:', answerTextEl);
+      console.log('Answer type element:', answerTypeEl);
+      
+      // 设置答案文本
+      if (answerTextEl) {
+        answerTextEl.textContent = currentAnswer;
+        console.log('Answer text set:', currentAnswer);
+      } else {
+        console.error('answerText element not found');
+      }
+      
+      // 设置答案类型
+      if (answerTypeEl && typeNames[result.type]) {
+        answerTypeEl.textContent = typeNames[result.type];
+        console.log('Answer type set:', typeNames[result.type]);
+      } else {
+        console.error('answerType element not found or type not found');
+      }
+      
+      // 显示答案卡片
+      if (answerCard) {
+        answerCard.style.display = 'flex';
+        // 触发重新动画
+        answerCard.style.animation = 'none';
+        answerCard.offsetHeight; // 触发重排
+        answerCard.style.animation = 'fadeInUp 0.5s ease';
+        console.log('Answer card displayed');
+      }
+      
+      // 显示操作按钮
+      setTimeout(() => {
+        document.getElementById('answerActions').style.display = 'flex';
+      }, 300);
+    }
+    
+    function askAgain() {
+      console.log('askAgain called');
+      
+      // 重置状态
+      document.getElementById('answerCard').style.display = 'none';
+      document.getElementById('questionCard').style.display = 'block';
+      document.getElementById('questionInput').value = '';
+      document.getElementById('answerActions').style.display = 'none';
+      
+      // 清空当前答案显示
+      document.getElementById('answerText').textContent = '';
+      document.getElementById('answerType').textContent = '';
+      
+      currentAnswer = null;
+      currentAnswerType = null;
+    }
+    
+    function saveAnswer() {
+      if (!currentAnswer) return;
+      
+      const savedAnswers = JSON.parse(localStorage.getItem('savedAnswers') || '[]');
+      savedAnswers.unshift({
+        answer: currentAnswer,
+        type: currentAnswerType,
+        date: new Date().toLocaleDateString('zh-CN'),
+        timestamp: Date.now()
+      });
+      localStorage.setItem('savedAnswers', JSON.stringify(savedAnswers));
+      
+      showToast('答案已收藏！');
+    }
+    
+    function loadData() {
+      const streak = localStorage.getItem('streak') || 0;
+      const totalTime = localStorage.getItem('totalTime') || 0;
+      document.getElementById('streak').textContent = streak;
+      document.getElementById('totalTime').textContent = Math.floor(totalTime / 60);
+      loadDiaries();
+    }
+    
+    function saveData() {
+      localStorage.setItem('streak', document.getElementById('streak').textContent);
+      localStorage.setItem('totalTime', parseInt(document.getElementById('totalTime').textContent) * 60);
+    }
+    
+    function showPage(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(page).classList.add('active');
+      currentPage = page;
+      
+      if (page === 'meditation') {
+        loadData();
+      } else if (page === 'diary') {
+        loadDiaries();
+      }
+    }
+    
+    function bounceDuck(element) {
+      element.classList.add('bounce');
+      setTimeout(() => element.classList.remove('bounce'), 500);
+      showToast('🦆 小鸭很高兴见到你！');
+    }
+    
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+    
+    function selectEmotion(emotion) {
+      document.querySelectorAll('.emotion-item').forEach(item => item.classList.remove('selected'));
+      event.currentTarget.classList.add('selected');
+      selectedEmotion = emotion;
+    }
+    
+    // Initialize
+    loadData();
+    
+    // V5优化：页面加载后显示音乐提示（延迟1秒，避免遮挡首屏）
+    setTimeout(() => {
+      showMusicToast();
+    }, 1000);
+  </script>
+</body>
+</html>
